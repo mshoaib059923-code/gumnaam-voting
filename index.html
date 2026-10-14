@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>गुमनाम कुड़क मुर्गी मैरिज ग्रुप - वोटिंग</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background: #e5ddd5; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
+        .card { background: #ffffff; padding: 25px; border-radius: 10px; width: 100%; max-width: 400px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); text-align: center; }
+        h2 { color: #075e54; font-size: 20px; margin-bottom: 8px; }
+        p { color: #555; font-size: 13px; margin-bottom: 20px; }
+        input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; margin-bottom: 15px; outline: none; }
+        button { width: 100%; padding: 12px; background: #25d366; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        button:hover { background: #128c7e; }
+        .success { display: none; background: #d4edda; color: #155724; padding: 15px; border-radius: 6px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>🐔 गुमनाम कुड़क मुर्गी मैरिज ग्रुप</h2>
+    <p>ग्रुप से बाहर करने के लिए सदस्य का नाम लिखें:</p>
+
+    <div id="voteForm">
+        <input type="text" id="memberName" placeholder="यहाँ नाम लिखें..." required>
+        <button onclick="sendVote()">वोट सबमिट करें</button>
+    </div>
+
+    <div id="successMsg" class="success">
+        ✅ आपका वोट सबमिट हो गया है!
+    </div>
+</div>
+
+<script>
+    // यहाँ अपना Google Apps Script Web App URL पेस्ट करें
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUaIZHeBL8x-7VfaYXOuFd96vT3Lnx4Nje2W9_v5oHb6vYtmPhMiT4aQjg5HqNbDcR/exec";
+
+    function sendVote() {
+        const nameInput = document.getElementById('memberName');
+        const name = nameInput.value.trim();
+
+        if (!name) {
+            alert("कृपया नाम दर्ज करें!");
+            return;
+        }
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: name })
+        }).then(() => {
+            document.getElementById('voteForm').style.display = 'none';
+            document.getElementById('successMsg').style.display = 'block';
+        }).catch(err => {
+            alert("त्रुटि आई, कृपया पुनः प्रयास करें।");
+        });
+    }
+</script>
+
+</body>
+</html>
